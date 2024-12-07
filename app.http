@@ -1,32 +1,32 @@
+POST http://localhost:5000/save
+Content-Type: application/json
+
+{
+  "text": "Complete homework",
+  "completed": false
+}
+
+###
+POST http://localhost:5000/save
+Content-Type: application/json
+
+{
+  "text": "Complete assignment",
+  "completed": false
+}
+
+###
 GET http://localhost:5000/
-
-###
-POST http://localhost:5000/save
-Content-Type: application/json
-
-{"text":"Build static website"}
-
-###
-POST http://localhost:5000/save
-Content-Type: application/json
-
-{"text":"Build Responsive website"}
-
-
-###
-POST http://localhost:5000/save
-Content-Type: application/json
-
-{"text":"Solve medium question"}
 
 ###
 PUT http://localhost:5000/update
 Content-Type: application/json
 
 {
-    "_id":"67382a20784ece69f53717cd",
-    "text":"Solve 2 medium questions"
+  "_id":"6753a53aecdcf488dbb94270",
+  "text":"Completed Homework",
+  "completed":true
 }
 
 ###
-DELETE  http://localhost:5000/delete/67383f7141ec1fcaffe4839c
+DELETE http://localhost:5000/delete/6753a5e4ecdcf488dbb94275

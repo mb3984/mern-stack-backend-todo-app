@@ -1,40 +1,48 @@
 const todoModel = require("../models/todoModel");
 
 module.exports.getToDo = async (req, res) => {
-  const toDo = await todoModel.find();
-  res.send(toDo);
+  try {
+    const toDo = await todoModel.find();
+    res.send(toDo);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 };
 
 module.exports.saveToDo = async (req, res) => {
-  const { text } = req.body;
-  todoModel.create({ text }).then((data) => {
-    console.log("Added Succesfully");
-    console.log(data);
-    res.send(data);
-  });
+  const { text, completed } = req.body; // Accept completed as part of the request
+  try {
+    const newToDo = new todoModel({ text, completed });
+    await newToDo.save();
+    console.log("Added Successfully");
+    res.send(newToDo);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 };
 
 module.exports.updateToDo = async (req, res) => {
-  const { _id, text } = req.body;
-  // Ensure that _id is a valid ObjectId
-  todoModel
-    .findByIdAndUpdate(_id, { text })
-    .then(() => {
-      console.log("Updated Succesfully");
-      console.log(_id, text);
-      res.send("Updated Succesfully");
-    })
-    .catch((error) => console.log(error));
+  const { _id, text, completed } = req.body; // Accept completed as part of the update
+  try {
+    const updatedToDo = await todoModel.findByIdAndUpdate(
+      _id,
+      { text, completed },
+      { new: true } // Return the updated document
+    );
+    console.log("Updated Successfully", updatedToDo);
+    res.send(updatedToDo);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 };
 
 module.exports.deleteToDo = async (req, res) => {
   const { id } = req.params;
-  todoModel
-    .findByIdAndDelete(id)
-    .then(() => {
-      console.log("Deleted Succesfully");
-      console.log(id);
-      res.send("Deleted Succesfully");
-    })
-    .catch((error) => console.log(error));
+  try {
+    await todoModel.findByIdAndDelete(id);
+    console.log("Deleted Successfully", id);
+    res.send("Deleted Successfully");
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 };
